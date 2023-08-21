@@ -1,0 +1,42 @@
+{% extends 'musify/basic.html' %}
+{% block title %}Playlist {% endblock %}
+
+{% block body %}
+{% if message %}
+<script>
+   Swal.fire({
+  position: 'top-end',
+  icon: 'success',
+  title: '{{message}}',
+  showConfirmButton: false,
+  timer: 1500
+})
+</script>
+{% endif %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6" style="padding-top: 3%;">
+            <img src="/media/{{songs.image}}" alt="" height="350px width=350px">
+        
+        </div>
+        <div class="col-md-6">
+            <h2 style="padding-top: 8%; font-weight: 550; color:blue">Title: {{songs.name}}</h2>
+            <h5 style="padding-top: 2%; font-weight: 550;">Movie: {{songs.movie}}</h5>
+            <h5 style="padding-top: 2%; font-weight: 550;">Singer: {{songs.singer}}</h5>
+            <audio controls style="padding-top: 2%;">
+                <source src="/media/{{songs.songs}}" type="audio/mp3">
+            </audio>
+            
+            <div style="padding-top: 2%;">
+                <form action="/likedsong" method="POST">
+                    {% csrf_token %}
+                <input type="hidden" name="music_id" value="{{songs.song_id }}">
+                <button type="submit" class="btn btn-primary mb-3">ADD TO LIKED SONGS</button>    
+            </form >
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'musify/basic.html' %}
+
+{% block title %}ARIJIT SINGH{% endblock %}
+
+{% block body %}
+<div class="container">
+  {% for i in arijit_songs %}
+  <div class="card mb-3" style="max-width: 550px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="/media/{{i.image}}" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5  class="card-title" style="color:rgb(72, 0, 255);text-align: center; font-weight: 550;">{{i.name}}</h5>
+          <p class="card-text">Movie: {{i.movie}}</p>
+          <p class="card-text">Singer: {{i.singer}}</p>
+          <a href="/allsongs/{{i.song_id}}"><button class="btn btn-primary">Listen Song</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+
+{% endblock %}

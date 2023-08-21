@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <title>MUSIFY</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+  <body>
+    {% load static %}
+    <nav class="navbar navbar-expand-lg " style="background-color: #1994f2;">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/"style="color:white">MUSIFY</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/" style="color:white">HOME</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/allsongs" style="color:white">ALL SONGS</a>
+              </li>
+              <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #1994f2;border: 0ch;">
+                  PLAYLISTS
+                </a>
+              
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/trending_songs">TRENDING SONGS</a></li>
+                  <li><a class="dropdown-item" href="/arijit">ARIJIT SINGH</a></li>
+                </ul>
+              </div>
+            </ul>
+            <form class="d-flex" role="search" method="GET" action="/search">
+              <input name="query" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit" style="color:white ;border: 0ch;">Search</button>
+            </form>
+            {% if user.is_authenticated %}
+            <div class="dropdown">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #1994f2;border: 0ch;">
+                {{request.user}}
+              </a>
+            
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/likedsong">Liked Songs</a></li>
+                <li><a class="dropdown-item" href="/logout">Log out</a></li>
+              </ul>
+            </div>
+            {% else %}
+            <div class="mx-2">
+              <a href="/login" style="color:white;border: 0cm;" >Log In</a></li>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="{% static '/musify/music.jpg'%}" class="d-block w-100" alt="..."height="100%" width="100%">
+          </div>
+          <div class="carousel-item">
+            <img src="{% static '/musify/music.jpg'%}" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="{% static '/musify/music.jpg'%}" class="d-block w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <!--------------------------------------------cards------------------------------>
+      <h2 style="padding-left: 3%; padding-top: 2%;">TRENDING SONGS</h2>
+      <div class="row" style="padding-left: 4%;">
+          <a style="text-align: right; padding-right: 1%;" href="/trending_songs">Show All</a>
+          {% for song in trending_songs|slice:":6" %}
+          <div class="col-md-2" style="padding-bottom: 20px;">
+              <a href="/allsongs/{{ song.song_id }}" style="text-decoration: none;">
+                  <div class="card" style="width: 100%; height: 100%; cursor: pointer;">
+                      <img src="/media/{{ song.image }}" class="card-img-top" alt="..." height="350px" width="350px">
+                      <div class="card-body">
+                          <h5 style="text-align: center; color: black;" class="card-title">{{ song.name }}</h5>
+                      </div>
+                  </div>
+              </a>
+          </div>
+          {% endfor %}
+      </div>
+      <!------------------------------------------------------------->
+      <h2 style="padding-left: 3%; padding-top: 2%;">ARIJIT SINGH</h2>
+      <div class="row" style="padding-left: 4%;">
+          <a style="text-align: right; padding-right: 1%;" href="/arijit">Show All</a>
+          {% for song in arijit_songs|slice:":6" %}
+          <div class="col-md-2" style="padding-bottom: 20px;">
+              <a href="/allsongs/{{ song.song_id }}" style="text-decoration: none;">
+                  <div class="card" style="width: 100%; height: 100%; cursor: pointer;">
+                      <img src="/media/{{ song.image }}" class="card-img-top" alt="..." height="350px" width="350px">
+                      <div class="card-body">
+                          <h5 style="text-align: center; color: black;" class="card-title">{{ song.name }}</h5>
+                      </div>
+                  </div>
+              </a>
+          </div>
+          {% endfor %}
+      </div>
+        <!---------------------------------------------------------------------------->
+        {% if user.is_authenticated %}
+        <h2 style="padding-left: 3%; padding-top: 2%;">LIKED SONGS</h2>
+<div class="row" style="padding-left: 4%;">
+    <a style="text-align: right; padding-right: 1%;" href="/likedsong">Show All</a>
+    {% for song in liked|slice:":6" %}
+    <div class="col-md-2" style="padding-bottom: 20px;">
+        <a href="/allsongs/{{ song.song_id }}" style="text-decoration: none;">
+            <div class="card" style="width: 100%; height: 100%; cursor: pointer;">
+                <img src="/media/{{ song.image }}" class="card-img-top" alt="..." height="350px" width="350px">
+                <div class="card-body">
+                    <h5 style="text-align: center; color: black;" class="card-title">{{ song.name }}</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  </body>
+</html>
