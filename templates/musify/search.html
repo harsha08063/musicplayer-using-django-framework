@@ -3,8 +3,12 @@
 {% block title %}ALL SONGS{% endblock %}
 
 {% block body %}
+
+{% if no_results_message %}
+    <p style="text-align: center; font-size: 30px;">{{ no_results_message }}</p>
+{% else %}
 <div style="padding-top:2%;padding-bottom: 2%;font-size:150%;padding-left: 5%;">
-    Your Search Result for {{query}}:
+  Your Search Result for {{query}}:
 </div>
 <div class="container">
   {% for i in songs %}
@@ -23,8 +27,8 @@
       </div>
     </div>
   </div>
-
   {% endfor %}
+  {% endif %}
 </div>
 
 {% endblock %}
