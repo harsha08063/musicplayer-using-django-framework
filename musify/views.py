@@ -129,10 +129,19 @@ def arijit(request):
     arijit_songs=songs.objects.filter(singer="Arijit Singh")
     return render(request,"musify/arijit.html",{'arijit_songs':arijit_songs})
 
-
 def search(request):
     query=request.GET.get("query")
     song=songs.objects.all()
     qs=song.filter(name__icontains=query)
-    return render(request,'musify/search.html',{"songs":qs,"query":query})
+    qm=song.filter(movie__icontains=query)
+    qsi=song.filter(singer__icontains=query)
+    smq=qs.union(qm).union(qsi)
+    context = {"songs": smq, "query": query}
+    if smq.exists():
+        return render(request,'musify/search.html',{"songs":smq,"query":query})
+    else:
+        no_results_message = f"No results found for '{query}'."
+        context["no_results_message"] = no_results_message
+        return render(request, 'musify/search.html', context)
+
 
